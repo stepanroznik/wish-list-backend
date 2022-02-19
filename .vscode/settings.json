@@ -1,0 +1,15 @@
+{
+    "typescript.preferences.quoteStyle": "single",
+    "typescript.preferences.importModuleSpecifier": "relative",
+    "indentRainbow.ignoreErrorLanguages" : [ "*" ],
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "latex",
+        "plaintext"
+    ]
+}
