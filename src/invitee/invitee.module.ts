@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { QuestionController } from './question.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { Question } from './entities/question.entity';
+import { Question } from './entities/invitee.entity';
 import { QuestionMapper } from './question.mapper';
 import { WhereParserModule } from '../common/where-parser/where-parser.module';
 

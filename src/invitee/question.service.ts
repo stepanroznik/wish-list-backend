@@ -6,17 +6,15 @@ import {
 import Sequelize from 'sequelize';
 import { InjectModel } from '@nestjs/sequelize';
 import {
-    IWishListAttributes,
-    IWishListCreationAttributes,
-    WishList,
-} from './entities/wish-list.entity';
+    IQuestionAttributes,
+    IQuestionCreationAttributes,
+    Question,
+} from './entities/invitee.entity';
 import { LoggerService } from '../common/logger/logger.service';
-import { Question } from '../invitee/entities/invitee.entity';
 
 interface IServiceFindAllOptions {
     where?: Record<string, any>;
     includeDeleted?: boolean;
-    includeAnswers?: boolean;
 }
 
 interface IServiceFindOneOptions {
@@ -31,19 +29,19 @@ interface IServiceRemoveOptions {
     force: boolean;
 }
 @Injectable()
-export class WishListService {
+export class QuestionService {
     constructor(
-        @InjectModel(WishList)
-        private readonly wishListRepository: typeof WishList,
+        @InjectModel(Question)
+        private readonly questionRepository: typeof Question,
         private readonly logger: LoggerService,
     ) {
-        this.logger.setContext(WishListService.name);
+        this.logger.setContext(QuestionService.name);
     }
 
-    async create(partiesToCreate: IWishListCreationAttributes[]) {
-        this.logger.debug('Creating a wishList!!', partiesToCreate);
+    async create(questionsToCreate: IQuestionCreationAttributes[]) {
+        this.logger.debug('Creating a question!!', questionsToCreate);
         try {
-            return await this.wishListRepository.bulkCreate(partiesToCreate);
+            return await this.questionRepository.bulkCreate(questionsToCreate);
         } catch (e) {
             if (e instanceof Sequelize.UniqueConstraintError)
                 throw new ConflictException(e.message);
@@ -54,17 +52,19 @@ export class WishListService {
     async findAll(
         opts: IServiceFindAllOptions = {
             includeDeleted: false,
-            includeAnswers: false,
             where: null,
         },
     ) {
         if (opts.where) this.logger.debug('where:', opts.where);
-        const parties = await this.wishListRepository.findAll({
+        const questions = await this.questionRepository.findAll({
             where: opts.where,
             paranoid: !opts.includeDeleted,
-            order: Sequelize.literal('random()'),
+            order: [
+                ['isPrimary', 'DESC'],
+                ['id', 'ASC'],
+            ],
         });
-        return parties;
+        return questions;
     }
 
     async findOne(
@@ -73,28 +73,28 @@ export class WishListService {
             includeDeleted: false,
         },
     ) {
-        const wishList = await this.wishListRepository.findByPk(id, {
+        const question = await this.questionRepository.findByPk(id, {
             paranoid: !opts.includeDeleted,
         });
-        if (!wishList)
-            throw new NotFoundException(`WishList with id ${id} not found.`);
-        return wishList;
+        if (!question)
+            throw new NotFoundException(`Question with id ${id} not found.`);
+        return question;
     }
 
     async update(
         id: string,
-        wishListToUpdate: Partial<IWishListAttributes>,
+        questionToUpdate: Partial<IQuestionAttributes>,
         opts: IServiceUpdateOptions = { restore: false },
     ) {
-        const wishList = await this.wishListRepository.findByPk(id, {
+        const question = await this.questionRepository.findByPk(id, {
             paranoid: !opts.restore,
         });
-        if (!wishList)
-            throw new NotFoundException(`WishList with id ${id} not found.`);
+        if (!question)
+            throw new NotFoundException(`Question with id ${id} not found.`);
         try {
-            await wishList.update(wishListToUpdate);
-            if (opts.restore) await wishList.restore();
-            return wishList;
+            await question.update(questionToUpdate);
+            if (opts.restore) await question.restore();
+            return question;
         } catch (e) {
             if (e instanceof Sequelize.UniqueConstraintError)
                 throw new ConflictException(e.message);
@@ -103,12 +103,12 @@ export class WishListService {
     }
 
     async remove(id: string, opts: IServiceRemoveOptions = { force: false }) {
-        const wishList = await this.wishListRepository.findByPk(id, {
+        const question = await this.questionRepository.findByPk(id, {
             paranoid: !opts.force,
         });
-        if (!wishList) {
-            throw new NotFoundException(`WishList with id ${id} not found.`);
+        if (!question) {
+            throw new NotFoundException(`Question with id ${id} not found.`);
         }
-        await wishList.destroy({ force: opts.force });
+        await question.destroy({ force: opts.force });
     }
 }

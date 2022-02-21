@@ -9,7 +9,7 @@ import {
     IQuestionAttributes,
     IQuestionCreationAttributes,
     Question,
-} from './entities/question.entity';
+} from './entities/list-item.entity';
 import { LoggerService } from '../common/logger/logger.service';
 
 interface IServiceFindAllOptions {

@@ -2,9 +2,9 @@ import { createMock } from '@golevelup/ts-jest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoggerService } from '../common/logger/logger.service';
 import { WhereParserService } from '../common/where-parser/where-parser.service';
-import { QuestionController } from './question.controller';
-import { QuestionMapper } from './question.mapper';
-import { QuestionService } from './question.service';
+import { QuestionController } from './invitee.controller';
+import { QuestionMapper } from './invitee.mapper';
+import { QuestionService } from './invitee.service';
 
 describe('QuestionController', () => {
     let controller: QuestionController;

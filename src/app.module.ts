@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { QuestionModule } from './question/question.module';
+import { QuestionModule } from './invitee/question.module';
 import { LoggerModule } from './common/logger/logger.module';
 import rTracer from 'cls-rtracer';
 import shortUUID from 'short-uuid';

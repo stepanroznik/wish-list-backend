@@ -7,7 +7,7 @@ import { LoggerModule } from '../common/logger/logger.module';
 import {
     IQuestionCreationAttributes,
     Question,
-} from './entities/question.entity';
+} from './entities/invitee.entity';
 import { QuestionMapper } from './question.mapper';
 import { QuestionService } from './question.service';
 

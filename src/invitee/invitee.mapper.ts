@@ -7,7 +7,7 @@ import {
     Question,
     IQuestionAttributes,
     IQuestionCreationAttributes,
-} from './entities/question.entity';
+} from './entities/invitee.entity';
 
 @Injectable()
 export class QuestionMapper extends BaseMapper<
